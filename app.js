@@ -1,34 +1,16 @@
-const labyrinth = [
-  [
-    ['is', 'so'],
-    ['nd', 'dn'],
-  ],
-  [
-    ['se', 'ws'],
-    ['un', 'nu'],
-  ],
-];
+import planLabyrinth from './labyrinth.js';
+import {dict, shift} from './nav.js';
 
-const dict = {
-  n: 'north', s: 'south', e: 'east', w: 'west',
-  u: 'up', d: 'down', i: 'in', o: 'out',
-};
-
-const shift = {
-  n: [0, -1, 0],  s: [0, 1, 0],
-  e: [0, 0, 1],  w: [0, 0, -1],
-  u: [-1, 0, 0],  d: [1, 0, 0],
-};
-
-const IN = '000';
-const OUT = '001';
+const {start, labyrinth, finish} = planLabyrinth(4, 4, 4);
 
 const selects = [];
 const selectDict = {};
 
 const sp = String.prototype; sp.if = sp.repeat;
 
-showSelect(IN);
+let steps = 0;
+
+showSelect(start);
 
 body.onchange = handleSelect;
 
@@ -58,7 +40,10 @@ function showSelect(coords) {
 }
 
 function handleSelect({ target }) {
-  while (target.nextSibling) target.nextSibling.remove();
+  while (target.nextSibling) {
+    target.nextSibling.remove();
+    steps++;
+  }
 
   const { coords } = target.dataset;
 
@@ -69,6 +54,7 @@ function handleSelect({ target }) {
     (num, i) => num + shift[target.value][i]
   ).join('');
 
+  steps++;
   showSelect(nextCoords);
 }
 
