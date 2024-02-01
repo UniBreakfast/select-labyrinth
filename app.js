@@ -1,7 +1,9 @@
 import planLabyrinth from './labyrinth.js';
 import {dict, shift} from './nav.js';
 
-const {start, labyrinth, finish} = planLabyrinth(4, 4, 4);
+const size = {y: 4, z: 4, x: 4};
+
+const {start, labyrinth, finish} = planLabyrinth(size.y, size.z, size.x);
 
 const selects = [];
 const selectDict = {};
@@ -34,6 +36,14 @@ function showSelect(coords) {
   ).join('');
 
   select.dataset.coords = coords;
+  const color = `rgb(${
+    255 / size.y * level
+  }, ${
+    255 / size.z * row
+  }, ${
+    255 / size.x * room
+  })`;
+  select.style.boxShadow = `0 0 2px 3px ${color}`;
   selectDict[coords] = select;
 
   body.append(select);
@@ -59,7 +69,5 @@ function handleSelect({ target }) {
 }
 
 function endGame() {
-  const steps = body.querySelectorAll('select').length;
-
   alert(`You escaped in ${steps} steps!`);
 }

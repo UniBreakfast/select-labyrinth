@@ -1,0 +1,10 @@
+body {
+  background: #000;
+}
+
+select {
+  display: inline-block;
+  margin: 4px;
+  background: #333;
+  color: #ddd;
+}
